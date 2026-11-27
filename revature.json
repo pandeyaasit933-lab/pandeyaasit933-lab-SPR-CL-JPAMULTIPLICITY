@@ -1,0 +1,30 @@
+{
+  "type": "java",
+  "testFiles": [
+    {
+      "path": "src/test/java/application/StudentServiceTest.java",
+      "testCases": [
+        {
+          "methodName": "testAddStudent",
+          "label": "Verify adding a new student",
+          "description": "Ensures that StudentService.addStudent correctly saves a student using the StudentRepository and returns the saved entity."
+        },
+        {
+          "methodName": "testAssignClassroomToStudent",
+          "label": "Verify assigning a classroom to a student",
+          "description": "Checks that a classroom is correctly assigned to a student and that the repository methods findById and save are invoked appropriately."
+        },
+        {
+          "methodName": "testGetClassroomOfStudent",
+          "label": "Verify retrieving a student's classroom",
+          "description": "Ensures StudentService.getClassroomOfStudent returns the correct classroom after fetching the student by ID."
+        },
+        {
+          "methodName": "testUnassignClassroomOfStudent",
+          "label": "Verify unassigning a student's classroom",
+          "description": "Ensures that a student's classroom is set to null and that repository interactions (findById, save) occur as expected."
+        }
+      ]
+    }
+  ]
+}
