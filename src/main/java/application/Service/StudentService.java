@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * In this class, you will complete the code necessary to retrieve and manipulate entities related to the Student
@@ -19,6 +20,7 @@ import java.util.List;
 public class StudentService {
     StudentRepository studentRepository;
     ClassroomRepository classroomRepository;
+
     /**
      * The StudentRepository has been autowired into this class via constructor injection. In case you would like
      * to use or experiment with the ClassroomRepository as well, that bean will also be injected, however, using the
@@ -44,7 +46,7 @@ public class StudentService {
     /**
      * @return all student entities.
      */
-    public List<Student> getAllStudent(){
+    public List<Student> getAllStudents(){
         return studentRepository.findAll();
     }
 
@@ -53,20 +55,30 @@ public class StudentService {
      * assign the classroom to the student by manipulating the classroom field of the student. Don't forget to save
      * the changes made to your student entity via the studentRepository so that the update is sent to the database.
      *
-     * @param studentId the id of a persisted student
+     * @param studentId the id of a persisted, existing student
      * @param classroom a persisted, existing classroom passed into this method
      */
     public void assignClassroomToStudent(long studentId, Classroom classroom){
-
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+            student.setClassroom(classroom);
+            studentRepository.save(student);
+        }
     }
 
     /**
      * TODO: Provided the Id of an already existing student entity, return its assigned classroom by retrieving
-     * the 'classroom' field of student. 
+     * the 'classroom' field of student.
      * @param studentId Id of a persisted, existing student entity
      * @return the Classroom of the student
      */
     public Classroom getClassroomOfStudent(long studentId){
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+            return student.getClassroom();
+        }
         return null;
     }
 
@@ -77,6 +89,11 @@ public class StudentService {
      * @param studentId Id of a persisted, existing student entity
      */
     public void unassignClassroomOfStudent(long studentId){
-
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+            student.setClassroom(null);
+            studentRepository.save(student);
+        }
     }
 }
